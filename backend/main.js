@@ -18,6 +18,11 @@ const frontDirCandidates = [
 ];
 
 const frontDir = frontDirCandidates.find((candidate) => fs.existsSync(candidate));
+const uploadsDir = path.join(__dirname, 'uploads');
+
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
 
 if (frontDir) {
   app.use(express.static(frontDir));
@@ -27,6 +32,7 @@ if (frontDir) {
   });
 }
 
+app.use('/uploads', express.static(uploadsDir));
 app.use(routes);
 
 app.listen(port, () => {
