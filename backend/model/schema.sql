@@ -1,16 +1,32 @@
-CREATE TABLE IF NOT EXISTS picture (
-    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    latitude NUMERIC(9, 6) NOT NULL,
-    longitude NUMERIC(9, 6) NOT NULL,
-    altitude NUMERIC(8, 2),
-    path TEXT NOT NULL,
-    original_name TEXT,
-    mime_type VARCHAR(100),
-    commentary TEXT,
-    timestamp TIMESTAMPTZ NOT NULL DEFAULT NOW()
+-- Version moderne PostgreSQL
+
+CREATE TABLE location (
+    id              BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    name            TEXT            NOT NULL,
+    description     TEXT,
+    latitude        NUMERIC(9, 6)   NOT NULL,
+    longitude       NUMERIC(9, 6)   NOT NULL,
+    main_picture_id BIGINT
 );
 
-ALTER TABLE picture
-    ADD COLUMN IF NOT EXISTS altitude NUMERIC(8, 2),
-    ADD COLUMN IF NOT EXISTS original_name TEXT,
-    ADD COLUMN IF NOT EXISTS mime_type VARCHAR(100);
+CREATE TABLE picture (
+    id          BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    location_id BIGINT          NOT NULL,
+    path        TEXT            NOT NULL,
+    commentary  TEXT,
+    timestamp   TIMESTAMPTZ     NOT NULL DEFAULT NOW(),
+
+    CONSTRAINT fk_picture_location
+        FOREIGN KEY (location_id)
+        REFERENCES location(id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT uq_picture_id_location
+        UNIQUE (id, location_id)
+);
+
+ALTER TABLE location
+    ADD CONSTRAINT fk_location_main_picture
+    FOREIGN KEY (main_picture_id, id)
+    REFERENCES picture(id, location_id)
+    ON DELETE SET NULL;

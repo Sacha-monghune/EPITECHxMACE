@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: Inter, "Segoe UI", sans-serif;
+}
+
+.atlas-map .leaflet-control-zoom {
+  border: 0;
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 16px 36px rgba(148, 163, 184, 0.24);
+}
+
+.atlas-map .leaflet-control-zoom a {
+  width: 42px;
+  height: 42px;
+  line-height: 42px;
+  background: rgba(255, 255, 255, 0.94);
+  color: #0f172a;
+  transition: background-color 160ms ease, color 160ms ease;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.atlas-map .leaflet-control-zoom a:hover {
+  background: #2563eb;
+  color: #fff;
+}
+
+.atlas-map .leaflet-popup-content-wrapper {
+  border-radius: 20px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.24);
+  padding: 2px;
+  background: rgba(255, 250, 240, 0.96);
+}
+
+.atlas-map .leaflet-popup-content {
+  margin: 14px 16px;
+}
+
+.atlas-map .leaflet-popup-tip {
+  box-shadow: none;
+  background: rgba(255, 250, 240, 0.96);
+}
+
+.atlas-map .leaflet-control-attribution {
+  border-radius: 18px 0 0 0;
+  background: rgba(255, 255, 255, 0.86);
+  color: rgba(15, 23, 42, 0.72);
+  padding: 6px 10px;
+  backdrop-filter: blur(10px);
+}
+
+.atlas-map .leaflet-control-attribution a {
+  color: #0f172a;
+}
