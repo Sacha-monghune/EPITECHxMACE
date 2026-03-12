@@ -4,6 +4,7 @@ CREATE TABLE location (
     id              BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     name            TEXT            NOT NULL,
     description     TEXT,
+    category        TEXT            NOT NULL CHECK (category IN ('food', 'nature', 'shopping')),
     latitude        NUMERIC(9, 6)   NOT NULL,
     longitude       NUMERIC(9, 6)   NOT NULL,
     main_picture_id BIGINT
