@@ -154,6 +154,16 @@ function App() {
   const [error, setError] = useState<string | null>(null)
   const rotationBatchesRef = useRef<number[][]>([])
   const rotationIndexRef = useRef(0)
+  const headerCopy = {
+    en: {
+      badge: "Reunion Guide",
+      title: "What to do on Reunion Island",
+    },
+    fr: {
+      badge: "Guide Reunion",
+      title: "Que faire a l'Ile de la Reunion",
+    },
+  } as const
 
   function advanceLivePops(sourceLocations: Location[]) {
     if (sourceLocations.length === 0) {
@@ -341,17 +351,36 @@ function App() {
           liveProgress={liveProgress}
         />
       </main>
-      <aside className="h-full w-3/7">
-        <Sidebar
-          language={language}
-          selectedLocation={selectedLocation}
-          pictures={pictures}
-          focusPictures={focusPictures}
-          isLoading={isLoading}
-          isLoadingFocusPictures={isLoadingFocusPictures}
-          error={error}
-          onClearSelection={() => setSelectedLocationId(null)}
-        />
+      <aside className="flex h-full w-3/7 flex-col gap-5 pt-2">
+        <div className="flex items-center gap-4 rounded-[1.5rem] border border-white/85 bg-white/88 px-5 py-4 shadow-[0_12px_30px_rgba(148,163,184,0.16)] backdrop-blur-md">
+          <div className="flex h-24 w-64 shrink-0 items-center justify-center overflow-hidden">
+            <img
+              src="/Logo.png"
+              alt="Project logo"
+              className="max-h-full max-w-full object-contain"
+            />
+          </div>
+          <div className="min-w-0">
+            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-blue-700">
+              {headerCopy[language].badge}
+            </p>
+            <h1 className="mt-2 text-2xl font-semibold tracking-tight text-slate-900">
+              {headerCopy[language].title}
+            </h1>
+          </div>
+        </div>
+        <div className="min-h-0 flex-1">
+          <Sidebar
+            language={language}
+            selectedLocation={selectedLocation}
+            pictures={pictures}
+            focusPictures={focusPictures}
+            isLoading={isLoading}
+            isLoadingFocusPictures={isLoadingFocusPictures}
+            error={error}
+            onClearSelection={() => setSelectedLocationId(null)}
+          />
+        </div>
       </aside>
     </div>
   )

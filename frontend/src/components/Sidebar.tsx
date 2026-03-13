@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react"
 import type { Language } from "../App"
 import type { Location, Picture } from "../types"
 
@@ -33,10 +34,10 @@ const copy = {
     explorationMode: "Mode exploration",
     streamTitle: "Flux photo visiteurs",
     emptyDescription: "Ce lieu n'a pas encore de description.",
-    streamDescription: "Un flux continu de toutes les photos uploadées. Clique sur un marqueur pour verrouiller le panneau sur un lieu.",
+    streamDescription: "Un flux continu de toutes les photos ajoutées. Clique sur un marqueur pour verrouiller le panneau sur un lieu.",
     back: "Retour",
     relatedPictures: "Photos liees",
-    latestUploads: "Derniers uploads",
+    latestUploads: "Derniers ajouts",
     items: "elements",
     loadingPictures: "Chargement des photos...",
     noFocusPictures: "Aucune photo n'est encore liee a ce lieu.",
@@ -70,6 +71,60 @@ function Sidebar({
   const text = copy[language]
   const isFocusMode = selectedLocation !== null
   const displayPictures = isFocusMode ? focusPictures : pictures
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null)
+  const focusCardRefs = useRef<Array<HTMLElement | null>>([])
+
+  useEffect(() => {
+    const container = scrollContainerRef.current
+
+    if (!container || displayPictures.length <= 1) {
+      return
+    }
+
+    let activeIndex = 0
+    let intervalId = 0
+    let isPaused = false
+
+    const scrollToCard = (index: number) => {
+      const card = focusCardRefs.current[index]
+
+      if (!card) {
+        return
+      }
+
+      container.scrollTo({
+        top: card.offsetTop - container.offsetTop,
+        behavior: "smooth",
+      })
+    }
+
+    const onMouseEnter = () => {
+      isPaused = true
+    }
+
+    const onMouseLeave = () => {
+      isPaused = false
+    }
+
+    container.addEventListener("mouseenter", onMouseEnter)
+    container.addEventListener("mouseleave", onMouseLeave)
+    container.scrollTo({ top: 0, behavior: "auto" })
+
+    intervalId = window.setInterval(() => {
+      if (isPaused) {
+        return
+      }
+
+      activeIndex = (activeIndex + 1) % displayPictures.length
+      scrollToCard(activeIndex)
+    }, isFocusMode ? 2800 : 2400)
+
+    return () => {
+      window.clearInterval(intervalId)
+      container.removeEventListener("mouseenter", onMouseEnter)
+      container.removeEventListener("mouseleave", onMouseLeave)
+    }
+  }, [displayPictures, isFocusMode])
 
   return (
     <section className="flex h-full flex-col rounded-[2rem] border border-white/80 bg-white/72 p-5 shadow-[0_18px_50px_rgba(148,163,184,0.16)] backdrop-blur-sm">
@@ -116,7 +171,7 @@ function Sidebar({
           <p className="text-xs font-medium text-slate-400">{displayPictures.length} {text.items}</p>
         </div>
 
-        <div className="min-h-0 flex-1 overflow-y-auto pr-1 pb-4">
+        <div ref={scrollContainerRef} className="min-h-0 flex-1 overflow-y-auto pr-1 pb-4">
           {isLoading || (isFocusMode && isLoadingFocusPictures) ? (
             <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-sm text-slate-500">
               {text.loadingPictures}
@@ -139,6 +194,11 @@ function Sidebar({
             {displayPictures.map((picture) => (
               <article
                 key={picture.id}
+                ref={(element) => {
+                  focusCardRefs.current = focusCardRefs.current.slice(0, displayPictures.length)
+                  const pictureIndex = displayPictures.findIndex((currentPicture) => currentPicture.id === picture.id)
+                  focusCardRefs.current[pictureIndex] = element
+                }}
                 className="overflow-hidden rounded-[1.4rem] border border-slate-200 bg-white shadow-[0_12px_24px_rgba(148,163,184,0.12)]"
               >
                 <img

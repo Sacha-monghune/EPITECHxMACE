@@ -209,15 +209,15 @@ function PictureUpload() {
   }
 
   return (
-    <section className="mx-auto flex min-h-screen w-full max-w-6xl items-center px-4 py-10 sm:px-6 lg:px-8">
+    <section className="mx-auto flex min-h-screen w-full max-w-6xl items-start px-4 py-6 sm:px-6 sm:py-10 lg:items-center lg:px-8">
       <div className="grid w-full gap-8 lg:grid-cols-[1.1fr_0.9fr]">
-        <div className="rounded-[2rem] border border-white/80 bg-white/86 p-8 shadow-[0_24px_70px_rgba(148,163,184,0.2)] backdrop-blur-sm">
-          <div className="flex items-start justify-between gap-4">
+        <div className="rounded-[2rem] border border-white/80 bg-white/86 p-5 shadow-[0_24px_70px_rgba(148,163,184,0.2)] backdrop-blur-sm sm:p-8">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.3em] text-blue-700">
                 {copy.badge}
               </p>
-              <h1 className="mt-4 text-4xl font-semibold tracking-tight text-slate-900">
+              <h1 className="mt-4 text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
                 {copy.title}
               </h1>
               <p className="mt-3 max-w-lg text-sm leading-6 text-slate-600">{copy.description}</p>
@@ -225,7 +225,7 @@ function PictureUpload() {
             <button
               type="button"
               onClick={toggleLanguage}
-              className="cursor-pointer shrink-0 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:border-blue-500 hover:text-blue-700"
+              className="cursor-pointer self-start shrink-0 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:border-blue-500 hover:text-blue-700"
             >
               {copy.switchLanguage}
             </button>
@@ -263,7 +263,7 @@ function PictureUpload() {
                   accept="image/*"
                   onChange={handleFileChange}
                   disabled={isSubmitting}
-                  className="block w-full cursor-pointer text-sm text-slate-600 file:mr-4 file:rounded-full file:border-0 file:bg-blue-600 file:px-4 file:py-2 file:text-sm file:font-medium file:text-white hover:file:bg-blue-700 disabled:cursor-not-allowed"
+                  className="block w-full cursor-pointer text-sm text-slate-600 file:mb-3 file:mr-0 file:block file:rounded-full file:border-0 file:bg-blue-600 file:px-4 file:py-2 file:text-sm file:font-medium file:text-white hover:file:bg-blue-700 sm:file:mb-0 sm:file:mr-4 sm:file:inline-block disabled:cursor-not-allowed"
                 />
                 <p className="mt-3 text-xs text-slate-500">{copy.imageHint}</p>
               </div>
@@ -325,9 +325,13 @@ function PictureUpload() {
         <div className="flex flex-col gap-5">
           <div className="overflow-hidden rounded-[2rem] border border-white/80 bg-white/78 p-4 shadow-[0_24px_70px_rgba(148,163,184,0.18)] backdrop-blur-sm">
             {previewUrl ? (
-              <img src={previewUrl} alt={copy.previewAlt} className="h-[24rem] w-full rounded-[1.5rem] object-cover" />
+              <img
+                src={previewUrl}
+                alt={copy.previewAlt}
+                className="h-64 w-full rounded-[1.5rem] object-cover sm:h-80 lg:h-[24rem]"
+              />
             ) : (
-              <div className="flex h-[24rem] items-center justify-center rounded-[1.5rem] border border-dashed border-slate-200 bg-[linear-gradient(135deg,_#f8fbff,_#eef4ff)] px-8 text-center text-sm text-slate-500">
+              <div className="flex h-64 items-center justify-center rounded-[1.5rem] border border-dashed border-slate-200 bg-[linear-gradient(135deg,_#f8fbff,_#eef4ff)] px-6 text-center text-sm text-slate-500 sm:h-80 sm:px-8 lg:h-[24rem]">
                 {copy.previewEmpty}
               </div>
             )}

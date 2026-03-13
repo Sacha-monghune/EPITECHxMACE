@@ -28,6 +28,7 @@ const copy = {
     loading: "Loading locations and map feed...",
     switchLanguage: "🇬🇧 English",
     recenter: "Recenter",
+    addPhotos: "Add your photos",
   },
   fr: {
     food: "Restauration",
@@ -38,6 +39,7 @@ const copy = {
     loading: "Chargement des lieux et du flux de la carte...",
     switchLanguage: "🇫🇷 Français",
     recenter: "Recentrer",
+    addPhotos: "Ajoutez vos photos",
   },
 } as const
 
@@ -169,6 +171,7 @@ function Map({
 }: MapProps) {
   const text = copy[language]
   const [mapInstance, setMapInstance] = useState<LeafletMap | null>(null)
+  const [showQrCode, setShowQrCode] = useState(true)
 
   return (
     <div className="relative h-full w-full overflow-hidden rounded-[2rem] border border-white/80 bg-[#f8f4ea] shadow-[0_28px_90px_rgba(148,163,184,0.26)]">
@@ -208,21 +211,23 @@ function Map({
       </MapContainer>
 
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.52),_transparent_28%),linear-gradient(180deg,rgba(255,255,255,0.12),rgba(255,255,255,0.02))]" />
-      <button
-        type="button"
-        onClick={onToggleLanguage}
-        className="absolute left-6 top-6 z-[500] cursor-pointer rounded-full border border-white/85 bg-white/88 px-4 py-2 text-xs font-semibold uppercase tracking-[0.26em] text-slate-700 shadow-[0_12px_30px_rgba(148,163,184,0.16)] backdrop-blur-md transition hover:border-blue-500 hover:text-blue-700"
-      >
-        {text.switchLanguage}
-      </button>
+      <div className="absolute left-6 top-6 z-[500] flex flex-col gap-3">
+        <button
+          type="button"
+          onClick={onToggleLanguage}
+          className="cursor-pointer rounded-full border border-white/85 bg-white/88 px-4 py-2 text-xs font-semibold uppercase tracking-[0.26em] text-slate-700 shadow-[0_12px_30px_rgba(148,163,184,0.16)] backdrop-blur-md transition hover:border-blue-500 hover:text-blue-700"
+        >
+          {text.switchLanguage}
+        </button>
 
-      <button
-        type="button"
-        onClick={() => mapInstance?.setView(reunionCenter, 11, { animate: true })}
-        className="absolute bottom-6 left-6 z-[500] cursor-pointer rounded-full border border-white/85 bg-white/88 px-4 py-2 text-xs font-semibold uppercase tracking-[0.26em] text-slate-700 shadow-[0_12px_30px_rgba(148,163,184,0.16)] backdrop-blur-md transition hover:border-blue-500 hover:text-blue-700"
-      >
-        {text.recenter}
-      </button>
+        <button
+          type="button"
+          onClick={() => mapInstance?.setView(reunionCenter, 11, { animate: true })}
+          className="cursor-pointer rounded-full border border-white/85 bg-white/88 px-4 py-2 text-xs font-semibold uppercase tracking-[0.26em] text-slate-700 shadow-[0_12px_30px_rgba(148,163,184,0.16)] backdrop-blur-md transition hover:border-blue-500 hover:text-blue-700"
+        >
+          {text.recenter}
+        </button>
+      </div>
 
       <div className="absolute right-6 top-6 z-[500] flex gap-3">
         <div className="rounded-full border border-white/85 bg-white/88 px-4 py-2 text-xs font-semibold uppercase tracking-[0.26em] text-slate-700 shadow-[0_12px_30px_rgba(148,163,184,0.16)] backdrop-blur-md">
@@ -230,6 +235,22 @@ function Map({
         </div>
         <div className="rounded-full border border-white/85 bg-white/88 px-4 py-2 text-xs font-semibold uppercase tracking-[0.26em] text-slate-700 shadow-[0_12px_30px_rgba(148,163,184,0.16)] backdrop-blur-md">
           {activeLocationIds.length} {text.livePops}
+        </div>
+      </div>
+
+      <div className="absolute bottom-6 left-6 z-[500] w-32 rounded-[1.25rem] border border-white/85 bg-white/88 p-3 shadow-[0_12px_30px_rgba(148,163,184,0.16)] backdrop-blur-md">
+        <p className="mb-2 text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-slate-600">
+          {text.addPhotos}
+        </p>
+        <div className="flex h-24 w-full items-center justify-center overflow-hidden rounded-[0.9rem] bg-white/70">
+          {showQrCode ? (
+            <img
+              src="/qrcode.svg"
+              alt="QR code"
+              className="h-full w-full object-cover"
+              onError={() => setShowQrCode(false)}
+            />
+          ) : null}
         </div>
       </div>
 
