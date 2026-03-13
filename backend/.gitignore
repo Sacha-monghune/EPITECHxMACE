@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Runtime files
+uploads/
+logs/
+*.log
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Coverage and caches
+coverage/
+.nyc_output/
+
+# OS / Editor
+.DS_Store
+.vscode/
+.idea/
+
