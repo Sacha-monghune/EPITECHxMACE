@@ -8,6 +8,7 @@
     --text-dark: #2f3855;
     --bg-light: #ffffff;
     --bg-soft: #dbe6f7;
+    --bg-beige-troublant: #fcfcfc;
     --gray: #bcbcbc;
     --black: #000000;
 }
@@ -70,11 +71,7 @@ body {
     margin: 0;
     font-family: 'Trebuchet MS', sans-serif;
     color: var(--text-dark);
-    background: radial-gradient(circle at 14% 20%, rgba(255, 255, 255, 0.9), transparent 30%),
-        radial-gradient(circle at 84% 68%, rgba(47, 134, 200, 0.72), transparent 40%),
-        radial-gradient(circle at 64% 14%, rgba(63, 79, 158, 0.74), transparent 30%),
-        radial-gradient(circle at 32% 82%, rgba(136, 201, 79, 0.42), transparent 28%),
-        #d2def3;
+    background: var(--bg-beige-troublant);
 }
 
 /* --- LAYOUT --- */

@@ -3,7 +3,7 @@ function App() {
         <main className="board">
             <div className="column">
                 <section className="box left-top">
-                    <header className="box-title">Activiter</header>
+                    <header className="box-title">Activities</header>
                     <div className="box-content"></div>
                 </section>
 
@@ -18,7 +18,7 @@ function App() {
             <div className="column">
                 <section className="box right-main">
                     <div className="right-main-header">
-                        <h4 className="titre">To do our reunion</h4>
+                        <h4 className="titre">To-do for our reunion</h4>
                         <div className="logo-inline">
                             <img className="logo-image" src="logo_Kreol'inl2.png" alt="Logo Kreolink" />
                         </div>
