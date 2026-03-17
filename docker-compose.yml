@@ -58,9 +58,8 @@ services:
       PORT: 3000
       DATABASE_URL: postgres://${POSTGRES_USER:-admin}:${POSTGRES_PASSWORD:-secret}@postgres:5432/${POSTGRES_DB:-mydb}
     volumes:
-      - ./backend:/app      # hot-reload en développement
-      - ./front:/front:ro   # fichiers front servis par Express
-      - /app/node_modules   # isolation des node_modules
+      - ./backend:/app      # code backend + dossier uploads persistants
+      - /app/node_modules   # isolation des node_modules du conteneur
     depends_on:
       postgres:
         condition: service_healthy
